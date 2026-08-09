@@ -4,21 +4,58 @@ import { Button } from "../../components/button";
 
 export const SignUpScreen = () => {
 
+    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
     }
 
+    const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUsername(e.target.value);
+    }
+
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value)
     }
+
+    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setError("");
+
+        try{
+            const data = {
+                username,
+                email,
+                password
+            }
+            const response = await fetch("http://localhost:8080/api/v1/auth/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            if(!response.ok){
+                setError("Erro ao fazer sign-up")
+                console.log(await response.json())
+            }
+
+            const result = await response.json();
+            console.log("Okay: ", result)
+        }catch(error){
+
+        }
+    }
     return(
         <div
-            className="min-h-screen flex items-center justify-center"
+            className="min-h-screen flex items-center justify-center bg-gray-50"
         >
-            <div
+            <form
+            onSubmit={handleSubmit}
             className="
                 p-8
                 flex
@@ -29,6 +66,7 @@ export const SignUpScreen = () => {
                 rounded-xl
                 gap-4
                 max-w-126
+                bg-white
             "
             >
 
@@ -44,9 +82,15 @@ export const SignUpScreen = () => {
                 >
                     {"Insira os seus dados abaixo para criar a sua conta"}
                 </h3>
+
+                <InputField
+                    label={"Seu Username"}
+                    placeholder="John Doe"
+                    handleChange={handleUsernameChange}
+                />
                 <InputField
                     label={"Seu Email"}
-                    placeholder="martin-example@mail.com"
+                    placeholder="john-doe@example.com"
                     handleChange={handleEmailChange}
                 />
                 <InputField
@@ -54,11 +98,12 @@ export const SignUpScreen = () => {
                     placeholder="******"
                     handleChange={handlePasswordChange}
                 />
-                <p className="text-xs mb-4">Não possui conta? <a className="text-blue-600 cursor-pointer">inscreva-se</a></p>
+                <p className="text-xs mb-4">Já possui conta? <a className="text-blue-600 cursor-pointer" href="/sign-in">Entre</a></p>
                 <Button
                     title="Inscrever-se"
+                    type="submit"
                 />
-            </div>
+            </form>
         </div>
     )
 }
