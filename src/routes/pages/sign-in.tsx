@@ -1,6 +1,9 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { InputField } from "../../components/input"
 import { Button } from "../../components/button";
+import useAuth from "../../hooks/useAuth";
+import AuthContext from "../../context/auth-context";
+import { useNavigate } from "react-router";
 
 export const SignInScreen = () => {
 
@@ -8,6 +11,8 @@ export const SignInScreen = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const { auth, setAuth } = useAuth();
+    const navigate = useNavigate();
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
@@ -17,7 +22,7 @@ export const SignInScreen = () => {
         setPassword(e.target.value)
     }
 
-    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError("");
 
@@ -31,6 +36,7 @@ export const SignInScreen = () => {
                 headers: {
                     "Content-Type": "application/json"
                 },
+                credentials: "include",
                 body: JSON.stringify(data)
             });
 
@@ -40,7 +46,21 @@ export const SignInScreen = () => {
             }
 
             const result = await response.json();
-            console.log("Okay: ", result)
+
+            const userResponse = await fetch("http://localhost:8080/api/v1/auth/me", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+            });
+
+            const userData = await userResponse.json();
+
+            setAuth(userData.user);
+            console.log("passou")
+            localStorage.setItem("user", JSON.stringify(userData.user));
+            navigate("/", { replace: true})
         }catch(error){
 
         }
