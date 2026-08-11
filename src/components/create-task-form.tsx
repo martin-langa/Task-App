@@ -1,13 +1,17 @@
-import { useState } from "react"
+import { useState, type ButtonHTMLAttributes } from "react"
 import { InputField } from "./input"
 import { Button } from "./button";
 
-export const CreateForm = () => {
+type FormTypes = {
+    cancelar: React.MouseEventHandler<HTMLButtonElement>
+}
+
+export const CreateForm = ({ cancelar }: FormTypes) => {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [category, setCategory] = useState("");
-
+    
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
     }
@@ -20,9 +24,34 @@ export const CreateForm = () => {
         setCategory(e.target.value);
     }
 
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const formData = {
+            title,
+            description,
+            category
+        }
+
+        const response = await fetch("http://localhost:8080/api/v1/tasks/create",{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify(formData)
+        }, 
+    );
+
+        const data = await response.json();
+
+        console.log(data)
+    }
+
     return(
         <form
             className="max-w-96 p-6 flex flex-col gap-4"
+            onSubmit={handleSubmit}
         >
             <InputField 
                 label="Titulo" 
@@ -43,7 +72,7 @@ export const CreateForm = () => {
                 handleChange={handleCategoryChange} 
             />
             <div className="w-full flex gap-6 mt-4">
-                <Button title="Cancelar"/>
+                <Button onClick={cancelar} title="Cancelar"/>
                 <Button type="submit" title="Salvar"/>
             </div>
         </form>

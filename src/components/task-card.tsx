@@ -3,11 +3,11 @@ import { CategoryPill } from "./category-pill"
 
 type TaskProps = {
     title: string,
-    category: string,
+    categoryId: number,
     description: string
 }
 
-export const TaskCard = ({ title, category, description}: TaskProps) => {
+export const TaskCard = ({ title, categoryId, description}: TaskProps) => {
 
 
     return(
@@ -27,7 +27,7 @@ export const TaskCard = ({ title, category, description}: TaskProps) => {
                 className="flex flex-row justify-between mb-4 text-lg"
             >
                 <h3>{title}</h3>
-                <CategoryPill category={category} />
+                <CategoryPill category={categoryId} />
             </div>
             <p className="text-[14px] font-extralight max-w-66">
                 {description}

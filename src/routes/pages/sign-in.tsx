@@ -46,6 +46,7 @@ export const SignInScreen = () => {
             }
 
             const result = await response.json();
+            console.log("Aqui" + String(result))
 
             const userResponse = await fetch("http://localhost:8080/api/v1/auth/me", {
                 method: "POST",
