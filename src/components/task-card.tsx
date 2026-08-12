@@ -18,6 +18,7 @@ export const TaskCard = ({ title, categoryName, description}: TaskProps) => {
                 flex-col
                 px-4
                 max-w-96
+                max-h-52
                 justify-center
                 py-6
                 rounded-lg
