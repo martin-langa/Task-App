@@ -1,6 +1,7 @@
-import { useState, type ButtonHTMLAttributes } from "react"
+import { useState } from "react"
 import { InputField } from "./input"
 import { Button } from "./button";
+import { useNavigate } from "react-router";
 
 type FormTypes = {
     cancelar: React.MouseEventHandler<HTMLButtonElement>
@@ -8,6 +9,7 @@ type FormTypes = {
 
 export const CreateForm = ({ cancelar }: FormTypes) => {
 
+    const navigate = useNavigate();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [category, setCategory] = useState("");
@@ -40,17 +42,15 @@ export const CreateForm = ({ cancelar }: FormTypes) => {
             },
             credentials: "include",
             body: JSON.stringify(formData)
-        }, 
-    );
+        });
 
         const data = await response.json();
-
-        console.log(data)
+        navigate("/")
     }
 
     return(
         <form
-            className="max-w-96 p-6 flex flex-col gap-4"
+            className="max-w-96 p-6 flex rounded-xl flex-col gap-4 shadow-2xl"
             onSubmit={handleSubmit}
         >
             <InputField 
@@ -73,7 +73,7 @@ export const CreateForm = ({ cancelar }: FormTypes) => {
             />
             <div className="w-full flex gap-6 mt-4">
                 <Button onClick={cancelar} title="Cancelar"/>
-                <Button type="submit" title="Salvar"/>
+                <Button type="submit" title="Adicionar"/>
             </div>
         </form>
     )

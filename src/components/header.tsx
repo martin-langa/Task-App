@@ -1,5 +1,4 @@
 import useAuth from "../hooks/useAuth"
-import { Button } from "./button";
 
 type authType = {
     username: string,
@@ -25,22 +24,21 @@ export const Header = () => {
         .join("").toUpperCase() ?? "UK";
     return(
         <header
-            className="flex flex-1 justify-between"
+            className="flex w-full justify-between"
         >
             <h1 className="font-bold text-xl">
                 Task Management App
             </h1>
-            {auth ? (
             <form className="flex items-center gap-4" onSubmit={() => {
                 setAuth(null)
                 localStorage.removeItem("user");
+                window.location.href = "/sign-in"
                 }}>
                 <div className="w-12 h-12 bg-gray-500 border-gray-300 border-2 text-white flex items-center justify-center rounded-full">
                     <h1 className="text-md">{initials}</h1>
                 </div>
-                <button type="submit" className="bg-gray-400 text-md text-white h-8 px-6 rounded-2xl">Sair</button>
+                <button type="submit" className="bg-gray-400 text-md text-white h-8 px-6 rounded-2xl" >Sair</button>
             </form>
-            ) : (<Button title="Entrar"/>) }
         </header>
     )
 }

@@ -78,11 +78,11 @@ export const SignInScreen = () => {
                 flex-col
                 justify-center
                 min-h-112
-                border
                 rounded-xl
                 gap-4
                 max-w-126
                 bg-white
+                shadow-2xl
             "
             >
 

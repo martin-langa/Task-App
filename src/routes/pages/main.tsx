@@ -2,12 +2,13 @@ import { useState } from "react"
 import { TaskCard } from "../../components/task-card";
 import { CreateForm } from "../../components/create-task-form";
 import { Button } from "../../components/button";
+import { Header } from "../../components/header";
 
 type TaskType = {
     id: string,
     title: string,
     description: string,
-    categoryId: number
+    categoryName: string
 }
 
 
@@ -33,21 +34,26 @@ export const MainScreen = () => {
 
     fetchTasks();
     return(
-        <div>
+        <div className="flex flex-col h-screen ">
 
-            {isOpen ? <CreateForm cancelar={toggleForm}/> : (
+            <Header />
+            {isOpen ? <div className="flex flex-1 min-h-screen items-center justify-center"><CreateForm cancelar={toggleForm}/></div> : (
                 <>
-                    {tasks.map(task => (
-                    <TaskCard 
-                        categoryId={task.categoryId}
-                        description={task.description}
-                        title={task.title}
-                        key={task.id}
-                    />))}
-                    <Button
+                    <div className="flex flex-1 gap-4 p-8">
+                        {tasks.map(task => (
+                        <TaskCard 
+                            categoryName={task.categoryName}
+                            description={task.description}
+                            title={task.title}
+                            key={task.id}
+                        />))}
+                    </div>
+                    <div className="fixed z-1 inset-y-140 md:inset-x-305">
+                        <Button
                         onClick={toggleForm}
                         title="Adicionar Tarefa"
-                    />
+                        />
+                    </div>
                 </>
             )}
         </div>

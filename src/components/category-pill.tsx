@@ -1,6 +1,6 @@
 
 type Props = {
-    category: number
+    category: string
 }
  
 export const CategoryPill = ({ category }: Props ) => {
