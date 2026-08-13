@@ -14,7 +14,7 @@ export const CategoryPill = ({ category }: Props ) => {
                 px-2
                 py-0.2
                 flex
-                max-h-p[12px]
+                max-h-p-1
             "
         >
             <p>{category}</p>
