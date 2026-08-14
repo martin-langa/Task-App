@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import useAuth from "../hooks/useAuth"
 
 type authType = {
@@ -9,13 +10,20 @@ type authType = {
 
 export const Header = () => {
     const { setAuth } = useAuth();
-    const storedUser = localStorage.getItem("user");
     
-    const auth: authType | null = storedUser ? JSON.parse(storedUser) : null;
+    useEffect(() => {
+        const storedAuth = localStorage.getItem("user");
 
-    if (auth) {
-        setAuth(auth);
-    }
+        if(storedAuth){
+            const auth: authType = JSON.parse(storedAuth);
+            setAuth(auth);
+        }
+    }, [setAuth]);
+
+    const storedUser = localStorage.getItem("user");
+    const auth : authType | null = storedUser ? 
+        JSON.parse(storedUser) 
+        : null; 
 
     const initials = auth
         ?.username

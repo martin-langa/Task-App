@@ -9,15 +9,19 @@ export const CategoryPill = ({ category }: Props ) => {
     return(
         <div
             className="
-                bg-gray-200
-                text-xs
+                bg-emerald-600
+                text-white
+                font-bold
+                p-1
                 px-2
-                py-0.2
-                flex
-                max-h-p-1
+                max-h-6
+                text-center
+                rounded-lg
             "
         >
-            <p>{category}</p>
+            <p
+                className="text-xs"
+            >{category}</p>
         </div>
     )
 }
