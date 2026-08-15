@@ -1,17 +1,11 @@
 import { useContext, useState } from "react"
 import { InputField } from "../../components/input"
 import { Button } from "../../components/button";
-import useAuth from "../../hooks/useAuth";
-import AuthContext from "../../context/auth-context";
 import { useNavigate } from "react-router";
 
 export const SignInScreen = () => {
-
-    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const { auth, setAuth } = useAuth();
     const navigate = useNavigate();
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +18,6 @@ export const SignInScreen = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setError("");
 
         try{
             const data = {
@@ -41,7 +34,6 @@ export const SignInScreen = () => {
             });
 
             if(!response.ok){
-                setError("Erro ao fazer sign-in")
                 console.log(await response.json())
             }
 
@@ -58,7 +50,6 @@ export const SignInScreen = () => {
 
             const userData = await userResponse.json();
 
-            setAuth(userData.user);
             console.log("passou")
             localStorage.setItem("user", JSON.stringify(userData.user));
             navigate("/", { replace: true})

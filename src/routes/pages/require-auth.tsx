@@ -1,5 +1,6 @@
 import { useLocation, Navigate, Outlet } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import { MainLayout } from "../layouts/main-layout";
 
 export const RequireAuth = () => {
 
@@ -8,7 +9,8 @@ export const RequireAuth = () => {
 
     return(
         auth ? (
-            <Outlet/> 
+
+            <Outlet /> 
         ) : (
             <Navigate to="/sign-in" state={{from: location}} replace />
         )

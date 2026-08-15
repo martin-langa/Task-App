@@ -37,9 +37,9 @@ export const MainScreen = () => {
         <div className="flex flex-col h-screen ">
 
             <Header />
-            {isOpen ? <div className="flex flex-1 min-h-screen items-center justify-center"><CreateForm cancelar={toggleForm}/></div> : (
+            {isOpen ? <div className="flex min-h-screen items-center justify-center"><CreateForm cancelar={toggleForm}/></div> : (
                 <>
-                    <div className="flex flex-1 gap-4 p-8">
+                    <div className="flex gap-4 p-8">
                         {tasks.map(task => (
                         <TaskCard 
                             categoryName={task.categoryName}
